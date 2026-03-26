@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   chunk_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brportos <brportos@student.42antananari    +#+  +:+       +#+        */
+/*   By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 10:57:46 by brportos          #+#    #+#             */
-/*   Updated: 2026/03/25 08:28:55 by brportos         ###   ########.fr       */
+/*   Updated: 2026/03/26 12:05:37 by herinaan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,26 +53,41 @@ void	sort_small(t_stack **a, t_stack **b, t_stats *ops)
 	while (*b)
 		pa(a, b, ops);
 }
+int	chunk_exists_in_a(t_stack **a, int min, int max)
+{
+	t_stack	*tmp;
+
+	tmp = *a;
+	while (tmp)
+	{
+		if (tmp->index >= min && tmp->index <= max)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
 
 void	pb_chunks(t_stack **a, t_stack **b, int chunk_size, t_stats *ops)
 {
-	int	pushed;
+	int	min;
+	int	max;
+	int	i;
+	int	size;
 
-	pushed = 0;
+	i = 0;
+	size = stack_size(*a);
+	chunk_size = ft_sqr(size);
 	while (*a)
 	{
-		if ((*a)->content <= pushed)
+		min = i * chunk_size;
+		max = (i + 1) * chunk_size - 1;
+		while (chunk_exists_in_a(a, min, max))
 		{
-			pb(a, b, ops);
-			rb(b, ops);
-			pushed++;
+			if ((*a)->index >= min && (*a)->index <= max)
+				pb(a, b, ops);
+			else
+				ra(a, ops);
 		}
-		else if ((*a)->content <= pushed + chunk_size)
-		{
-			pb(a, b, ops);
-			pushed++;
-		}
-		else
-			ra(a, ops);
+		i++;
 	}
 }

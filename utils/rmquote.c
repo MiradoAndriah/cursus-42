@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rmquote.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brportos <brportos@student.42antananari    +#+  +:+       +#+        */
+/*   By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 09:00:35 by brportos          #+#    #+#             */
-/*   Updated: 2026/03/25 11:23:12 by brportos         ###   ########.fr       */
+/*   Updated: 2026/03/25 16:03:56 by herinaan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ void	isdoublequoted(t_stack **a, char **av)
 	i = 0;
 	while (split[i])
 	{
+		if (is_flags(split[i]))
+		{
+			i++;
+			continue ;
+		}
 		j = 0;
 		while (split[i][j])
 		{
@@ -51,10 +56,10 @@ void	isunquoted(t_stack **a, int ac, char **av)
 	while (i < ac)
 	{
 		if (is_flags(av[i]))
-			{
-                i++;
-                continue;
-            }
+		{
+			i++;
+			continue ;
+		}
 		j = 0;
 		while (av[i][j])
 		{
