@@ -12,6 +12,20 @@
 
 #include "../push_swap.h"
 
+void	is_split(char **split, int j)
+{
+	int	k;
+
+	k = 0;
+	while (split[j][k])
+	{
+		if ((split[j][k] == '-' || split[j][k] == '+'))
+			k++;
+		if (!ft_isdigit(split[j][k]))
+			return (write(2, "error\n", 6), free(split), exit(1));
+		k++;
+	}
+}
 void	isdoublequoted(t_stack **a, char **av)
 {
 	int		i;
@@ -19,61 +33,24 @@ void	isdoublequoted(t_stack **a, char **av)
 	int		n;
 	char	**split;
 
-	split = ft_split(av[1], ' ');
-	i = 0;
-	while (split[i])
-	{
-		if (is_flags(split[i]))
-		{
-			i++;
-			continue ;
-		}
-		j = 0;
-		while (split[i][j])
-		{
-			if (j == 0 && (split[i][j] == '-' || split[i][j] == '+'))
-				j++;
-			if (!ft_isdigit(split[i][j]))
-			{
-				write(2, "error\n", 6);
-				exit(1);
-			}
-			j++;
-		}
-		n = ft_atoi(split[i]);
-		ft_stackadd_back(a, ft_stacknew(n));
-		i++;
-	}
-}
-
-void	isunquoted(t_stack **a, int ac, char **av)
-{
-	int	n;
-	int	i;
-	int	j;
-
 	i = 1;
-	while (i < ac)
+	while (av[i])
 	{
-		if (is_flags(av[i]))
-		{
-			i++;
-			continue ;
-		}
+		split = ft_split(av[i], ' ');
 		j = 0;
-		while (av[i][j])
+		while (split[j])
 		{
-			if (j == 0 && (av[i][j] == '-' || av[i][j] == '+'))
-				j++;
-			if (!ft_isdigit(av[i][j]))
+			if (is_flags(split[j]))
 			{
-				write(2, "error\n", 6);
-				exit(1);
+				j++;
+				continue ;
 			}
+			is_split(split, j);
+			n = ft_atoi(split[j]);
+			ft_stackadd_back(a, ft_stacknew(n));
 			j++;
 		}
-		n = ft_atoi(av[i]);
-		ft_stackadd_back(a, ft_stacknew(n));
+		free(split);
 		i++;
 	}
 }

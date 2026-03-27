@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brportos <brportos@student.42antananari    +#+  +:+       +#+        */
+/*   By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 12:25:31 by brportos          #+#    #+#             */
-/*   Updated: 2026/03/25 11:20:56 by brportos         ###   ########.fr       */
+/*   Updated: 2026/03/27 16:54:02 by herinaan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,6 @@ typedef struct s_stats
 	int				total_ops;
 }					t_stats;
 
-typedef struct s_select
-{
-	int				simple;
-	int				medium;
-	int				complex;
-	int				adaptive;
-	int				bench;
-	int				total_ops;
-	double			disorder;
-	char			*strategy;
-	char			*complexity;
-}					t_select;
-
 void				pa(t_stack **a, t_stack **b, t_stats *ops);
 void				pb(t_stack **a, t_stack **b, t_stats *ops);
 void				ra(t_stack **a, t_stats *ops);
@@ -79,7 +66,7 @@ int					ft_sqr(int nb);
 void				chunk_sort(t_stack **a, t_stack **b, t_stats *ops);
 char				**ft_split(char const *s, char c);
 void				radix_sort(t_stack **a, t_stack **b, t_stats *ops);
-double				compute_disorder(t_stack *a);
+double				compute_disorder(t_stack *a, t_stats *ops);
 t_stack				*ft_stacknew(int content);
 void				ft_stackadd_back(t_stack **lst, t_stack *new);
 void				print_stack(t_stack *a);
@@ -94,8 +81,11 @@ void				ft_stackclear(t_stack **a);
 void				isdoublequoted(t_stack **a, char **av);
 void				isunquoted(t_stack **a, int ac, char **av);
 void				sort_small(t_stack **a, t_stack **b, t_stats *ops);
-int				apply_flag_strategy(int ac, char **av, t_stack **a, t_stack **b, t_stats *ops);
+int					apply_flag_strategy(int ac, char **av, t_stack **a,
+						t_stack **b, t_stats *ops);
 int					is_flags(char *str);
-
-
+int					count_strategy_flags(int ac, char **av);
+void				print_bench(char *str, t_stats *ops);
+void				is_bench(int argc, char **argv, t_stats *ops);
+void				is_strategy(char *str, t_stats *ops);
 #endif

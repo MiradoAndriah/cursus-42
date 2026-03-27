@@ -21,7 +21,8 @@ SRC = operations/swap.c \
 		utils/is_sorted.c \
 		utils/deallocate.c \
 		utils/rmquote.c \
-		utils/strategy_selector.c
+		utils/strategy_selector.c \
+		utils/count_stategy_flags.c
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 

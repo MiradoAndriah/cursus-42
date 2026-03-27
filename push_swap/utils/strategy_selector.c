@@ -19,45 +19,29 @@ int	is_flags(char *str)
 		|| ft_strcmp(str, "--bench") == 0);
 }
 
-static void	apply_flag_from_split(char **split, t_stack **a, t_stack **b,
-		t_stats *ops)
-{
-	int	j;
-
-	j = 0;
-	while (split[j])
-	{
-		if (ft_strcmp(split[j], "--simple") == 0)
-			selection_sort(a, b, ops);
-		else if (ft_strcmp(split[j], "--medium") == 0)
-			chunk_sort(a, b, ops);
-		else if (ft_strcmp(split[j], "--complex") == 0)
-			radix_sort(a, b, ops);
-		j++;
-	}
-}
-
 int	apply_flag_strategy(int ac, char **av, t_stack **a, t_stack **b,
 		t_stats *ops)
 {
 	int		i;
 	char	**split;
+	int		j;
 
-	if (ac == 2)
-	{
-		split = ft_split(av[1], ' ');
-		apply_flag_from_split(split, a, b, ops);
-		return (0);
-	}
 	i = 1;
 	while (i < ac && av[i])
 	{
-		if (ft_strcmp(av[i], "--simple") == 0)
-			selection_sort(a, b, ops);
-		else if (ft_strcmp(av[i], "--medium") == 0)
-			chunk_sort(a, b, ops);
-		else if (ft_strcmp(av[i], "--complex") == 0)
-			radix_sort(a, b, ops);
+		split = ft_split(av[i], ' ');
+		j = 0;
+		while (split[j])
+		{
+			if (ft_strcmp(split[j], "--simple") == 0)
+				selection_sort(a, b, ops);
+			else if (ft_strcmp(split[j], "--medium") == 0)
+				chunk_sort(a, b, ops);
+			else if (ft_strcmp(split[j], "--complex") == 0)
+				radix_sort(a, b, ops);
+			j++;
+		}
+		free(split);
 		i++;
 	}
 	return (0);

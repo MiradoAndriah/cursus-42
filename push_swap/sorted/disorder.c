@@ -3,31 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   disorder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brportos <brportos@student.42antananari    +#+  +:+       +#+        */
+/*   By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 08:31:17 by brportos          #+#    #+#             */
-/*   Updated: 2026/03/25 08:29:45 by brportos         ###   ########.fr       */
+/*   Updated: 2026/03/27 15:58:21 by herinaan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-double	compute_disorder(t_stack *a)
+double	compute_disorder(t_stack *a, t_stats *ops)
 {
-	int	mistakes;
-	int	total_pairs;
+	int		mistakes;
+	int		total_pairs;
+	t_stack	*i;
+	t_stack	*j;
 
 	mistakes = 0;
 	total_pairs = 0;
+	i = a;
 	if (!a)
 		return (0);
-	while (a && a->next)
+	while (i && i->next)
 	{
-		if (a->content > a->next->content)
-			mistakes++;
-		total_pairs++;
-		a = a->next;
+		j = i->next;
+		while (j)
+		{
+			if (i->content > j->content)
+				mistakes++;
+			total_pairs++;
+			j = j->next;
+		}
+		i = i->next;
 	}
+	ops->disorder = (double)mistakes / total_pairs;
 	return ((double)mistakes / total_pairs);
 }
 
@@ -109,10 +118,8 @@ void	sort_five(t_stack **a, t_stack **b, t_stats *ops)
 
 void	adaptive(t_stack **a, t_stack **b, t_stats *ops)
 {
-	double		disorder;
-	int			size;
-
-
+	double	disorder;
+	int		size;
 
 	size = stack_size(*a);
 	if (repetition_numbers(*a))
@@ -127,11 +134,11 @@ void	adaptive(t_stack **a, t_stack **b, t_stats *ops)
 		return (sort_five(a, b, ops));
 	if (size <= 15)
 		return (sort_small(a, b, ops));
-	disorder = compute_disorder(*a);
+	disorder = compute_disorder(*a, ops);
 	if (disorder < 0.2)
 		selection_sort(a, b, ops);
 	else if (disorder >= 0.2 && disorder < 0.5)
-		chunk_sort(a, b,ops);
+		chunk_sort(a, b, ops);
 	else
-		radix_sort(a, b,ops);
+		radix_sort(a, b, ops);
 }
