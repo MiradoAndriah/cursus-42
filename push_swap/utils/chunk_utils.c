@@ -28,6 +28,19 @@ int	ft_sqr(int nb)
 	return (i - 1);
 }
 
+int	is_sorted(t_stack *a)
+{
+	if (!a)
+		return (0);
+	while (a && a->next)
+	{
+		if (a->content > a->next->content)
+			return (0);
+		a = a->next;
+	}
+	return (1);
+}
+
 void	sort_small(t_stack **a, t_stack **b, t_stats *ops)
 {
 	int	size;
@@ -53,6 +66,7 @@ void	sort_small(t_stack **a, t_stack **b, t_stats *ops)
 	while (*b)
 		pa(a, b, ops);
 }
+
 int	chunk_exists_in_a(t_stack **a, int min, int max)
 {
 	t_stack	*tmp;

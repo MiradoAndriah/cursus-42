@@ -25,6 +25,7 @@ static void	stack_rotation(t_stack **a)
 	*a = (*a)->next;
 	last->next->next = NULL;
 }
+
 void	ra(t_stack **a, t_stats *ops)
 {
 	stack_rotation(a);
@@ -46,6 +47,7 @@ void	rb(t_stack **a, t_stats *ops)
 		ops->total_ops++;
 	}
 }
+
 void	rr(t_stack **a, t_stack **b, t_stats *ops)
 {
 	stack_rotation(a);

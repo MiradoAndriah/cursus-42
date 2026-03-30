@@ -2,7 +2,7 @@ NAME = push_swap
 PRINTF = ft_printf/libftprintf.a
 LIBFT = libft/libft.a
 
-CC = cc
+CC = cc -g
 CFLAGS = -Wall -Wextra -Werror
 
 OBJ_DIR = obj
@@ -13,15 +13,12 @@ SRC = operations/swap.c \
 		sorted/chunk_sort.c \
 		utils/chunk_utils.c \
 		sorted/radix_sort.c \
-		utils/linked_list.c \
+		utils/linked_stack.c \
 		main.c \
 		sorted/disorder.c \
 		operations/push_stack.c \
-		utils/find_min.c \
-		utils/is_sorted.c \
 		utils/deallocate.c \
 		utils/rmquote.c \
-		utils/strategy_selector.c \
 		utils/count_stategy_flags.c
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)

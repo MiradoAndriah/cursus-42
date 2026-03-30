@@ -12,20 +12,34 @@
 
 #include "../push_swap.h"
 
-void	ft_stackclear(t_stack **a)
+void	free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
+
+void	ft_stackclear(t_stack **stack)
 {
 	t_stack	*tmp;
 
-	if (!a || !*a)
+	if (!stack || !*stack)
 		return ;
-	while (*a)
+	while (*stack)
 	{
-		tmp = (*a)->next;
-		free(*a);
-		*a = NULL;
-		*a = tmp;
+		tmp = (*stack)->next;
+		free(*stack);
+		*stack = NULL;
+		*stack = tmp;
 	}
 }
+
 int	repetition_numbers(t_stack *a)
 {
 	t_stack	*j;

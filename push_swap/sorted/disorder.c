@@ -123,7 +123,7 @@ void	adaptive(t_stack **a, t_stack **b, t_stats *ops)
 
 	size = stack_size(*a);
 	if (repetition_numbers(*a))
-		return (write(2, "Error\n", 6), exit(1));
+		return (ft_stackclear(a), free(ops), write(2, "Error\n", 6), exit(1));
 	if (is_sorted(*a) == 1)
 		return ;
 	if (size == 2)

@@ -12,7 +12,7 @@
 
 #include "../push_swap.h"
 
-int get_max_bits(t_stack *a)
+int	get_max_bits(t_stack *a)
 {
 	int	max;
 	int	bits;

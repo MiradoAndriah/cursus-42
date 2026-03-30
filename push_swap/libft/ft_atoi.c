@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-long	Check_min_max(const char *nptr, int sign)
+static long	check_min_max(const char *nptr, int sign, int *is_error)
 {
 	long	nbr;
 
@@ -23,14 +23,14 @@ long	Check_min_max(const char *nptr, int sign)
 		if (nbr * sign < INT_MIN || nbr * sign > INT_MAX)
 		{
 			write(2, "Error\n", 6);
-			exit(1);
+			*is_error = 1;
 		}
 		nptr++;
 	}
 	return (sign * nbr);
 }
 
-int	ft_atoi(const char *nptr)
+int	ft_atoi(const char *nptr, int *is_error)
 {
 	int	i;
 	int	sign;
@@ -49,5 +49,5 @@ int	ft_atoi(const char *nptr)
 		else
 			i++;
 	}
-	return ((int)Check_min_max(nptr + i, sign));
+	return ((int)check_min_max(nptr + i, sign, is_error));
 }

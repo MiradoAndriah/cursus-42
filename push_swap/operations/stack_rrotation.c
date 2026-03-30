@@ -21,7 +21,7 @@ static void	stack_rrotation(t_stack **a)
 	last = *a;
 	while (last->next->next != NULL)
 		last = last->next;
-	last->next->next  = *a;
+	last->next->next = *a;
 	*a = last->next;
 	last->next = NULL;
 }

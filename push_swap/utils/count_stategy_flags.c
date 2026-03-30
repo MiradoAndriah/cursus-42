@@ -6,7 +6,7 @@
 /*   By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 11:13:48 by brportos          #+#    #+#             */
-/*   Updated: 2026/03/27 16:55:43 by herinaan         ###   ########.fr       */
+/*   Updated: 2026/03/30 10:28:55 by herinaan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,32 @@ int	count_strategy_flags(int ac, char **av)
 				count++;
 			j++;
 		}
-		free(split);
+		free_split(split);
+		i++;
+	}
+	return (count);
+}
+
+int	count_bench_flags(int ac, char **av)
+{
+	int		i;
+	int		count;
+	char	**split;
+	int		j;
+
+	count = 0;
+	i = 1;
+	while (i < ac && av[i])
+	{
+		split = ft_split(av[i], ' ');
+		j = 0;
+		while (split[j])
+		{
+			if (ft_strcmp(split[j], "--bench") == 0)
+				count++;
+			j++;
+		}
+		free_split(split);
 		i++;
 	}
 	return (count);
@@ -74,7 +99,16 @@ void	is_bench(int argc, char **argv, t_stats *ops)
 
 void	is_strategy(char *str, t_stats *ops)
 {
-	if (ft_strcmp(str, "--simple") == 0)
+	if (ft_strcmp(str, "--adaptive") == 0)
+	{
+		if (ops->disorder < 0.2)
+			ft_printf(2, "[bench] strategy: Simple / O(n²)\n");
+		else if (ops->disorder >= 0.2 && ops->disorder < 0.5)
+			ft_printf(2, "[bench] strategy: Medium / O(n√n)\n");
+		else
+			ft_printf(2, "[bench] strategy: Complex / O(nlogn)\n");
+	}
+	else if (ft_strcmp(str, "--simple") == 0)
 		ft_printf(2, "[bench] strategy: Simple / O(n²)\n");
 	else if (ft_strcmp(str, "--medium") == 0)
 		ft_printf(2, "[bench] strategy: Medium / O(n√n)\n");
