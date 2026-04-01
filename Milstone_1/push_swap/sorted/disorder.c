@@ -121,6 +121,8 @@ void	adaptive(t_stack **a, t_stack **b, t_stats *ops)
 	double	disorder;
 	int		size;
 
+	if (is_sorted(*a) == 1)
+		return ;
 	size = stack_size(*a);
 	if (repetition_numbers(*a))
 		return (ft_stackclear(a), free(ops), write(2, "Error\n", 6), exit(1));

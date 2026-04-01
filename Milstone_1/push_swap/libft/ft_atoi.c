@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brportos <brportos@student.42antananari    +#+  +:+       +#+        */
+/*   By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 13:56:58 by brportos          #+#    #+#             */
-/*   Updated: 2026/03/21 08:19:14 by brportos         ###   ########.fr       */
+/*   Updated: 2026/03/31 10:30:50 by herinaan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static long	check_min_max(const char *nptr, int sign, int *is_error)
 		{
 			write(2, "Error\n", 6);
 			*is_error = 1;
+			return (0);
 		}
 		nptr++;
 	}

@@ -72,7 +72,7 @@ void	chunk_sort(t_stack **a, t_stack **b, t_stats *ops)
 	int	size;
 	int	chunk_size;
 
-	if (!*a)
+	if (!*a || is_sorted(*a) == 1)
 		return ;
 	size = stack_size(*a);
 	chunk_size = ft_sqr(size);

@@ -6,7 +6,7 @@
 /*   By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 11:13:48 by brportos          #+#    #+#             */
-/*   Updated: 2026/03/30 10:28:55 by herinaan         ###   ########.fr       */
+/*   Updated: 2026/04/01 12:21:03 by herinaan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,47 +72,65 @@ char	*find_strategy(int argc, char **argv)
 	while (i < argc)
 	{
 		if (ft_strcmp(argv[i], "--simple") == 0 || ft_strcmp(argv[i],
-				"--medium") == 0 || ft_strcmp(argv[i], "--complex") == 0)
+				"--medium") == 0 || ft_strcmp(argv[i], "--complex") == 0
+			|| ft_strcmp(argv[i], "--adaptive") == 0)
 			return (argv[i]);
 		i++;
 	}
 	return (NULL);
 }
-
+static void	is_only(t_stats *ops)
+{
+	ft_printf(2, "total_ops: %d\n", ops->total_ops);
+}
 void	is_bench(int argc, char **argv, t_stats *ops)
 {
 	int		i;
+	int		j;
 	char	*strategy;
+	char	**split;
 
 	i = 0;
 	while (i < argc)
 	{
-		if (ft_strcmp(argv[i], "--bench") == 0)
+		split = ft_split(argv[i], ' ');
+		j = 0;
+		while (split[j])
 		{
-			strategy = find_strategy(argc, argv);
-			print_bench(strategy, ops);
-			return ;
+			if (ft_strcmp(split[j], "--bench") == 0)
+			{
+				free_split(split);
+				strategy = find_strategy(argc, argv);
+				print_bench(strategy, ops);
+				return ;
+			}
+			else if (ft_strcmp(split[j], "--count-only") == 0)
+			{
+				is_only(ops);
+			}
+			j++;
 		}
+		free_split(split);
 		i++;
 	}
 }
 
 void	is_strategy(char *str, t_stats *ops)
 {
-	if (ft_strcmp(str, "--adaptive") == 0)
+	if (str && ft_strcmp(str, "--adaptive") == 0)
 	{
 		if (ops->disorder < 0.2)
-			ft_printf(2, "[bench] strategy: Simple / O(n²)\n");
+			ft_printf(2, "[bench] strategy: Adaptive / O(n²)\n");
 		else if (ops->disorder >= 0.2 && ops->disorder < 0.5)
-			ft_printf(2, "[bench] strategy: Medium / O(n√n)\n");
+			ft_printf(2, "[bench] strategy: Adaptive / O(n√n)\n");
 		else
-			ft_printf(2, "[bench] strategy: Complex / O(nlogn)\n");
+			ft_printf(2, "[bench] strategy: Adaptive / O(nlogn)\n");
 	}
-	else if (ft_strcmp(str, "--simple") == 0)
+	else if (str && ft_strcmp(str, "--simple") == 0)
 		ft_printf(2, "[bench] strategy: Simple / O(n²)\n");
-	else if (ft_strcmp(str, "--medium") == 0)
+	else if (str && ft_strcmp(str, "--medium") == 0)
 		ft_printf(2, "[bench] strategy: Medium / O(n√n)\n");
-	else if (ft_strcmp(str, "--complex") == 0)
+	else if (str && ft_strcmp(str, "--complex") == 0)
 		ft_printf(2, "[bench] strategy: Complex / O(nlogn)\n");
 	else if (ops->disorder < 0.2)
 		ft_printf(2, "[bench] strategy: Simple / O(n²)\n");
