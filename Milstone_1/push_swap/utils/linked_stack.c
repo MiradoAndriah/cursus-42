@@ -43,7 +43,7 @@ t_stack	*ft_stacknew(int content)
 {
 	t_stack	*node;
 
-	node = malloc(sizeof *node);
+	node = malloc(sizeof * node);
 	if (!node)
 		return (NULL);
 	node->content = content;
@@ -72,7 +72,7 @@ void	ft_stackadd_back(t_stack **lst, t_stack *new)
 		*lst = new;
 		return ;
 	}
-	if (!new &&lst)
+	if (!new && lst)
 		return ;
 	if (!lst && !new)
 		return ;

@@ -94,4 +94,5 @@ void				print_bench(char *str, t_stats *ops);
 void				is_bench(int argc, char **argv, t_stats *ops);
 void				is_strategy(char *str, t_stats *ops);
 void				free_split(char **split);
+
 #endif

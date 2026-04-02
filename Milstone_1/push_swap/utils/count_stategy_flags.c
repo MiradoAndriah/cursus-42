@@ -6,7 +6,7 @@
 /*   By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 11:13:48 by brportos          #+#    #+#             */
-/*   Updated: 2026/04/01 12:21:03 by herinaan         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:25:43 by herinaan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,7 @@ char	*find_strategy(int argc, char **argv)
 	}
 	return (NULL);
 }
-static void	is_only(t_stats *ops)
-{
-	ft_printf(2, "total_ops: %d\n", ops->total_ops);
-}
+
 void	is_bench(int argc, char **argv, t_stats *ops)
 {
 	int		i;
@@ -103,10 +100,6 @@ void	is_bench(int argc, char **argv, t_stats *ops)
 				strategy = find_strategy(argc, argv);
 				print_bench(strategy, ops);
 				return ;
-			}
-			else if (ft_strcmp(split[j], "--count-only") == 0)
-			{
-				is_only(ops);
 			}
 			j++;
 		}

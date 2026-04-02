@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   radix_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+        */
+/*   By: brportos <brportos@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/15 09:36:08 by brportos          #+#    #+#             */
-/*   Updated: 2026/04/01 09:25:46 by herinaan         ###   ########.fr       */
+/*   Updated: 2026/03/25 08:29:03 by brportos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

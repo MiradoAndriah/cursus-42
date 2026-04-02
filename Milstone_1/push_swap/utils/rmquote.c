@@ -6,7 +6,7 @@
 /*   By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 09:00:35 by brportos          #+#    #+#             */
-/*   Updated: 2026/04/01 12:21:25 by herinaan         ###   ########.fr       */
+/*   Updated: 2026/03/25 16:03:56 by herinaan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ int	is_flags(char *str)
 {
 	return (ft_strcmp(str, "--simple") == 0 || ft_strcmp(str, "--medium") == 0
 		|| ft_strcmp(str, "--complex") == 0 || ft_strcmp(str, "--adaptive") == 0
-		|| ft_strcmp(str, "--bench") == 0 || ft_strcmp(str,
-			"--count-only") == 0);
+		|| ft_strcmp(str, "--bench") == 0);
 }
 
 void	is_split(t_stack **a, char **split, int j)

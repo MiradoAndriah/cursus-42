@@ -89,6 +89,8 @@ void	pb_chunks(t_stack **a, t_stack **b, int chunk_size, t_stats *ops)
 	int	size;
 
 	i = 0;
+	if (!*a)
+		return ;
 	size = stack_size(*a);
 	chunk_size = ft_sqr(size);
 	while (*a)
