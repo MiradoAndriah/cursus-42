@@ -6,7 +6,7 @@
 /*   By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 12:25:31 by brportos          #+#    #+#             */
-/*   Updated: 2026/03/30 10:56:08 by herinaan         ###   ########.fr       */
+/*   Updated: 2026/04/02 15:34:34 by herinaan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ void				print_bench(char *str, t_stats *ops);
 void				is_bench(int argc, char **argv, t_stats *ops);
 void				is_strategy(char *str, t_stats *ops);
 void				free_split(char **split);
+void				indexing(t_stack *a);
 
 #endif

@@ -19,7 +19,8 @@ SRC = operations/swap.c \
 		operations/push_stack.c \
 		utils/deallocate.c \
 		utils/rmquote.c \
-		utils/count_stategy_flags.c
+		utils/count_stategy_flags.c \
+		utils/indexing.c
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 

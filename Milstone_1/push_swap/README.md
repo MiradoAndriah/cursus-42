@@ -1,6 +1,5 @@
-# push_swap
-
 *This project has been created as part of the 42 curriculum by `herinaan` and `brportos`*
+# push_swap
 # Overview
 The push_swap is a classic algorithmic project from the 42 curriculum that focuses on sorting data efficiently under strict constraints. 
 The goal is not only to sort numbers, but to do so using a minimal number of operations and a very limited instruction set.

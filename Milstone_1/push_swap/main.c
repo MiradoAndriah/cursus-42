@@ -6,7 +6,7 @@
 /*   By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 10:31:28 by herinaan          #+#    #+#             */
-/*   Updated: 2026/03/30 10:59:26 by herinaan         ###   ########.fr       */
+/*   Updated: 2026/04/02 15:36:23 by herinaan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(int ac, char **av)
 	if (count_strategy_flags(ac, av) > 1 || count_bench_flags(ac, av) > 1)
 		return (write(2, "error\n", 6), 1);
 	isdoublequoted(&a, av);
+	indexing(a);
 	ops = malloc(sizeof(t_stats));
 	strat.a = &a;
 	strat.b = &b;
