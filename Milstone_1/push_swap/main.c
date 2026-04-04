@@ -27,7 +27,7 @@ int	main(int ac, char **av)
 		return (write(2, "error\n", 6), 1);
 	isdoublequoted(&a, av);
 	indexing(a);
-	ops = malloc(sizeof(t_stats));
+	ops = calloc(1,sizeof(t_stats));
 	strat.a = &a;
 	strat.b = &b;
 	strat.ops = ops;
