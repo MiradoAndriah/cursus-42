@@ -6,13 +6,14 @@
 #    By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/05 19:06:57 by herinaan          #+#    #+#              #
-#    Updated: 2026/04/05 19:06:58 by herinaan         ###   ########.fr        #
+#    Updated: 2026/04/07 08:50:31 by herinaan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 import time 
 from datetime import datetime
+
 timestamp = time.time()
 nomber_format = format(timestamp,".2e")
 date = datetime.now()

@@ -6,7 +6,7 @@
 #    By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/05 19:10:33 by herinaan          #+#    #+#              #
-#    Updated: 2026/04/05 20:02:32 by herinaan         ###   ########.fr        #
+#    Updated: 2026/04/07 09:07:17 by herinaan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ if len(sys.argv) <= 1:
     sys.exit()
 if len(sys.argv) > 2:
     print("AssertionError: more than one argument is provided")
+    sys.exit()
 if not sys.argv[1].lstrip("-").isdigit():
     print("AssertionError: argument is not an integer")
     sys.exit()
