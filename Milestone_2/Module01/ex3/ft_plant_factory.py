@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 class Plant :
-    def __init__(self,name:str,height:float,age:int):
+    def __init__(self,name:str,height:int,age:int):
         self.name = name
         self.height = height
         self.age = age
@@ -13,13 +13,15 @@ class Plant :
         print(self.name, ":", self.height, "cm,", self.age, "days old")
 
 if __name__ == "__main__" :
-    plant1 = Plant("Rose",25.0,30)
-    print("=== Garden Plant Growth ===")
-    plant1.show()
-    h_init = plant1.height
-
-    for jour in range(1,8) :
-        print("=== Day " ,jour, "===")
-        plant1.grow()
-    print("Growth this week: ",round(plant1.height - h_init,1),"cm")
-      
+    plants = [
+        Plant("Rose",25.0,30),
+        Plant("Oak",200.0,365),
+        Plant("Cactus",5.0,90),
+        Plant("Sunflower",80.0,45),
+        Plant("Fern",15.0,120)
+    ]
+    print("=== Plant Factory Output ===")
+    for plant in plants :
+        print("Created:",end=" ")
+        plant.show()
+   

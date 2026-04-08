@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+
+class Plant:
+    def __init__(self,name:str, height:float, age:int):
+        self._name = name
+        if height < 0 :
+            print(f"{self._name} Error, height can't be negative")
+            self._height = 0
+        else:
+            self._height = height
+        if age < 0:
+            print(f"{self._name} : Error, age can't be negative")
+            self._age = 0
+        else :
+            self._age = age
+
+    def set_height(self,height):
+        if height < 0:
+            print(f"{self._name} : Error, height can't be negative")
+            print("Height update rejected")
+        else :
+            self._height = height
+            print(f"Height updated: {height}cm")
+    
+    def set_age(self,age):
+        if age < 0:
+            print(f"{self._name} : Error, age can't be negative")
+            print("Age update rejected")
+        else :
+            self._age = age
+            print(f"Age updated: {age} days")
+
+    def get_height(self) :
+        return (self._height)
+    
+    def get_age(self) :
+        return (self._age)
+
+    def show(self) :
+        print(self._name, ":", self._height, "cm", self._age, "days old")
+
+if __name__ == "__main__" :
+    plant = Plant("Rose",15.0,10)
+    print("=== Garden Security System ===")
+    print("Plante created: ",end=" ")
+    plant.show()
+    print("")
+    plant.set_height(25)
+    plant.set_age(30)
+    print("")
+    plant.set_height(-5)
+    plant.set_age(-50)
+    print("")
+    print("Curent state: ",end=" ")
+    plant.show()
