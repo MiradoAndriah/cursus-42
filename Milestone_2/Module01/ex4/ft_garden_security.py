@@ -1,55 +1,56 @@
 #!/usr/bin/env python3
 
 class Plant:
-    def __init__(self,name:str, height:float, age:int):
+    def __init__(self, name: str, height: float, age: int):
         self._name = name
-        if height < 0 :
+        if height < 0:
             print(f"{self._name} Error, height can't be negative")
-            self._height = 0
+            self._height = 0.0
         else:
             self._height = height
         if age < 0:
             print(f"{self._name} : Error, age can't be negative")
             self._age = 0
-        else :
+        else:
             self._age = age
 
-    def set_height(self,height):
+    def set_height(self, height: float) -> None:
         if height < 0:
             print(f"{self._name} : Error, height can't be negative")
             print("Height update rejected")
-        else :
+        else:
             self._height = height
-            print(f"Height updated: {height}cm")
-    
-    def set_age(self,age):
+            print(f"Height updated: {height} cm")
+
+    def set_age(self, age: int) -> None:
         if age < 0:
             print(f"{self._name} : Error, age can't be negative")
             print("Age update rejected")
-        else :
+        else:
             self._age = age
             print(f"Age updated: {age} days")
 
-    def get_height(self) :
+    def get_height(self) -> float:
         return (self._height)
-    
-    def get_age(self) :
+
+    def get_age(self) -> float:
         return (self._age)
 
-    def show(self) :
+    def show(self) -> None:
         print(self._name, ":", self._height, "cm", self._age, "days old")
 
-if __name__ == "__main__" :
-    plant = Plant("Rose",15.0,10)
+
+if __name__ == "__main__":
+    plant = Plant("Rose", 15.0, 10)
     print("=== Garden Security System ===")
-    print("Plante created: ",end=" ")
+    print("Plante created: ", end=" ")
     plant.show()
     print("")
-    plant.set_height(25)
+    plant.set_height(25.0)
     plant.set_age(30)
     print("")
     plant.set_height(-5)
     plant.set_age(-50)
     print("")
-    print("Curent state: ",end=" ")
+    print("Curent state: ", end=" ")
     plant.show()
