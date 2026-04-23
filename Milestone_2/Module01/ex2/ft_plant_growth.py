@@ -4,15 +4,16 @@ class Plant:
     def __init__(self, name: str, height: float, age: int):
         self.name = name
         self.height = height
-        self.age = age
+        self.ages = age
 
     def show(self) -> None:
-        print(self.name, ":", self.height, "cm", self.age, "days old")
+        print(f"{self.name}: {self.height}cm, {self.ages} days old")
 
     def grow(self) -> None:
         self.height = round(self.height + 0.8, 1)
-        self.age += 1
-        print(self.name, ":", self.height, "cm,", self.age, "days old")
+
+    def age(self) -> None:
+        self.ages += 1
 
 
 if __name__ == "__main__":
@@ -24,4 +25,6 @@ if __name__ == "__main__":
     for jour in range(1, 8):
         print("=== Day ", jour, "===")
         plant1.grow()
+        plant1.age()
+        plant1.show()
     print("Growth this week: ", round(plant1.height - h_init, 1), "cm")

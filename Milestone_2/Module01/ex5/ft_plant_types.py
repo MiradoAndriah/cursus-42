@@ -27,11 +27,11 @@ class Flower(Plant):
 
     def show(self) -> None:
         super().show()
-        print(f"color: {self.color}")
+        print(f" color: {self.color}")
         if (self.bloomed):
-            print(f"{self.name} is blooming beautifully!")
+            print(f" {self.name} is blooming beautifully!")
         else:
-            print(f"{self.name} has not bloomed yet")
+            print(f" {self.name} has not bloomed yet")
 
 
 class Tree(Plant):
@@ -72,8 +72,8 @@ class Vegetable(Plant):
 
     def show(self) -> None:
         super().show()
-        print(f"Harvest season: {self.season}")
-        print(f"Nutritional value: {self.nutrition}")
+        print(f" Harvest season: {self.season}")
+        print(f" Nutritional value: {self.nutrition}")
 
 
 if __name__ == "__main__":

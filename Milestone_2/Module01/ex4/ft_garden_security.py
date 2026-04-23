@@ -2,29 +2,29 @@
 
 class Plant:
     def __init__(self, name: str, height: float, age: int):
-        self._name = name
+        self.name = name
         if height < 0:
-            print(f"{self._name} Error, height can't be negative")
+            print(f"{self.name}: Error, height can't be negative")
             self._height = 0.0
         else:
             self._height = height
         if age < 0:
-            print(f"{self._name} : Error, age can't be negative")
+            print(f"{self.name}: Error, age can't be negative")
             self._age = 0
         else:
             self._age = age
 
     def set_height(self, height: float) -> None:
         if height < 0:
-            print(f"{self._name} : Error, height can't be negative")
+            print(f"{self.name}: Error, height can't be negative")
             print("Height update rejected")
         else:
             self._height = height
-            print(f"Height updated: {height} cm")
+            print(f"Height updated: {height}cm")
 
     def set_age(self, age: int) -> None:
         if age < 0:
-            print(f"{self._name} : Error, age can't be negative")
+            print(f"{self.name}: Error, age can't be negative")
             print("Age update rejected")
         else:
             self._age = age
@@ -37,20 +37,20 @@ class Plant:
         return (self._age)
 
     def show(self) -> None:
-        print(self._name, ":", self._height, "cm", self._age, "days old")
+        print(f"{self.name}: {self._height:.1f}cm, {self._age} days old")
 
 
 if __name__ == "__main__":
-    plant = Plant("Rose", 15.0, 10)
+    plant = Plant("Rose", 15, 10)
     print("=== Garden Security System ===")
-    print("Plante created: ", end=" ")
+    print("Plant created: ", end="")
     plant.show()
     print("")
-    plant.set_height(25.0)
+    plant.set_height(25)
     plant.set_age(30)
     print("")
     plant.set_height(-5)
     plant.set_age(-50)
     print("")
-    print("Curent state: ", end=" ")
+    print("Current state: ", end="")
     plant.show()
