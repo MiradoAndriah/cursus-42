@@ -1,21 +1,11 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    ft_count_harvest_recursive.py                      :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/04/07 11:26:34 by herinaan          #+#    #+#              #
-#    Updated: 2026/04/07 12:04:37 by herinaan         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-def  ft_count_harvest_recursive(day):
-    if day == 0:
+def day(start: int, end: int) -> None:
+    if start > end:
         return
-    ft_count_harvest_recursive(day - 1)
-    print("day",day)
-           
-day = int(input("Days until harvest: "))
-ft_count_harvest_recursive(day)
-print("Harvest time!")
+    print("Day ", start)
+    day(start + 1, end)
+
+
+def ft_count_harvest_recursive() -> None:
+    end = int(input("Days until harvest: "))
+    day(1, end)
+    print("Harvest time!")
