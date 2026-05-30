@@ -20,9 +20,41 @@ def main() -> None:
         print("\n---")
         f.close()
         print(f"File {filename!r} closed.")
-    except Exception as e:
-        print(f"Accessing file {filename!r}")
-        print(f"Error opening file {filename!r}: {e}")
+    except OSError as e:
+        sys.stderr.write(f"[STDERR] Error opening file {filename!r}: {e}")
+        sys.exit()
+
+    print("Transform data:")
+    file: typing.IO[str] = open(filename, "r")
+    content = file.read()
+    split = content.split("\n")
+    new_line = []
+    print("---")
+    for line in split:
+        new_line += [line + "#"]
+        print(line + "#")
+    print("---")
+    file.close()
+
+    sys.stdout.write("Enter new file name (or empty): ")
+    sys.stdout.flush()
+    name = sys.stdin.readline().rstrip("\n")
+    if name:
+        print(f"Saving data to {name!r}")
+        try:
+            new_file: typing.IO[str] = open(name, "w")
+            for line in new_line:
+                new_file.write(line + "\n")
+            new_file.close()
+        except OSError as e:
+            sys.stderr.write(f"[STDERR] Error opening file {filename!r}: {e}")
+            sys.stderr.write("\nData not saved.\n")
+
+            sys.exit()
+        print(f"Data saved in file {name!r}.")
+
+    else:
+        print("Not saving data.")
 
 
 if __name__ == "__main__":
