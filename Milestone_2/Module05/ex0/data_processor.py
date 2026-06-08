@@ -2,11 +2,12 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
+
 class DataProcessor(ABC):
-    def __init__(self):
-        self.file = []
-        self.compteur = 0
-    
+    def __init__(self) -> None:
+        self.file: list[tuple[int, str]] = []
+        self.rank = 0
+
     @abstractmethod
     def validate(self, data: Any) -> bool:
         pass
@@ -22,40 +23,34 @@ class DataProcessor(ABC):
 
 
 class NumericProcessor(DataProcessor):
-    def __init__(self):
-        super().__init__()
-    
     def validate(self, data: Any) -> bool:
         if isinstance(data, int) or isinstance(data, float):
             return True
-        
+
         if isinstance(data, list):
             for element in data:
-                if not isinstance(element, int) and not isinstance(element, float):
+                if not isinstance(element, (int, float)):
                     return False
             return True
         else:
             return False
-    
-    def ingest(self, data: int | float | list) -> None:
+
+    def ingest(self, data: int | float | list[int | float]) -> None:
         if not self.validate(data):
-            raise Exception("Improper log data")
+            raise TypeError("Improper numeric data")
         if not isinstance(data, list):
-            data = [data]
+            data = [data]   
         for element in data:
-            element = str(element)
-            self.file += [(self.compteur, element)]
-            self.compteur += 1
+            element_str = str(element)
+            self.file += [(self.rank, element_str)]
+            self.rank += 1
 
 
 class TextProcessor(DataProcessor):
-    def __init__(self):
-        super().__init__()
-
     def validate(self, data: Any) -> bool:
         if isinstance(data, str):
             return True
-        
+
         if isinstance(data, list):
             for element in data:
                 if not isinstance(element, str):
@@ -63,21 +58,18 @@ class TextProcessor(DataProcessor):
             return True
         else:
             return False
-    
-    def ingest(self, data: str | list) -> None:
+
+    def ingest(self, data: str | list[str]) -> None:
         if not self.validate(data):
-            raise Exception("Improper text data")
+            raise TypeError("Improper text data")
         if not isinstance(data, list):
             data = [data]
         for element in data:
-            self.file += [(self.compteur, element)]
-            self.compteur += 1
+            self.file += [(self.rank, element)]
+            self.rank += 1
 
 
 class LogProcessor(DataProcessor):
-    def __init__(self):
-        super().__init__()
-
     def validate(self, data: Any) -> bool:
         if isinstance(data, dict):
             for key, value in data.items():
@@ -93,13 +85,29 @@ class LogProcessor(DataProcessor):
         else:
             return False
 
-    def ingest(self, data: dict | list) -> Any:
+    def ingest(self, data: dict[str, str] | list[dict[str, str]]) -> None:
         if not self.validate(data):
-            raise Exception("Improper log data")
+            raise TypeError("Improper log data")
         if not isinstance(data, list):
             data = [data]
         for element in data:
             values = list(element.values())
             format_string = values[0] + ":" + values[1]
-            self.file += [(self.compteur, format_string)]
-            self.compteur += 1
+            self.file += [(self.rank, format_string)]
+            self.rank += 1
+
+
+if __name__ == "__main__":
+    print("=== Code Nexus - Data Processor ===\n")
+    print("Testing Numeric Processor...")
+    numericProcessor = NumericProcessor()
+    data1 = 42
+    print(f"Trying to validate input '{data1}': {numericProcessor.validate(data1)}")
+    data2 = "Hello"
+    print(f"Trying to validate input '{data2}': {numericProcessor.validate(data2)}")
+    data3 = "foo"
+    try:
+        numericProcessor.ingest(data3)
+    except Exception as e:
+        print(f"Test invalid ingestion of string {data3!r} without prior validation:")
+        print(f"Got exception: {e}")
