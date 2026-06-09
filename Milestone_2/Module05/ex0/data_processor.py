@@ -35,11 +35,11 @@ class NumericProcessor(DataProcessor):
         else:
             return False
 
-    def ingest(self, data: int | float | list[int | float]) -> None:
+    def ingest(self, data: Any) -> None:
         if not self.validate(data):
             raise TypeError("Improper numeric data")
         if not isinstance(data, list):
-            data = [data]   
+            data = [data]
         for element in data:
             element_str = str(element)
             self.file += [(self.rank, element_str)]
@@ -92,7 +92,7 @@ class LogProcessor(DataProcessor):
             data = [data]
         for element in data:
             values = list(element.values())
-            format_string = values[0] + ":" + values[1]
+            format_string = values[0] + ": " + values[1]
             self.file += [(self.rank, format_string)]
             self.rank += 1
 
@@ -102,12 +102,69 @@ if __name__ == "__main__":
     print("Testing Numeric Processor...")
     numericProcessor = NumericProcessor()
     data1 = 42
-    print(f"Trying to validate input '{data1}': {numericProcessor.validate(data1)}")
+    print(
+        f" Trying to validate input '{data1}': "
+        f"{numericProcessor.validate(data1)}"
+        )
     data2 = "Hello"
-    print(f"Trying to validate input '{data2}': {numericProcessor.validate(data2)}")
+    print(
+        f" Trying to validate input '{data2}': "
+        f"{numericProcessor.validate(data2)}"
+        )
     data3 = "foo"
     try:
         numericProcessor.ingest(data3)
     except Exception as e:
-        print(f"Test invalid ingestion of string {data3!r} without prior validation:")
-        print(f"Got exception: {e}")
+        print(
+            f" Test invalid ingestion of string "
+            f"{data3!r} without prior validation:"
+            )
+        print(f" Got exception: {e}")
+
+    data4 = [1, 2, 3, 4, 5]
+    print(f" Processing data: {data4}")
+    try:
+        numericProcessor.ingest(data4)
+        print(" Extracting 3 values...")
+        for i in range(3):
+            rank, data = numericProcessor.output()
+            print(f" Numeric value {rank}: {data}")
+    except Exception as e:
+        print(f" Got exception: {e}")
+    print()
+
+    print("Testing Text Processor...")
+    textProcessor = TextProcessor()
+    print(f" Trying to validate input '{data1}': "
+          f"{textProcessor.validate(data1)}"
+          )
+    data_text = ['Hello', 'Nexus', 'World']
+    print(f" Processing data: {data_text}")
+    try:
+        textProcessor.ingest(data_text)
+        print(" Extracting 1 value...")
+        for i in range(1):
+            rank, data = textProcessor.output()
+            print(f" Text value {rank}: {data}")
+    except Exception as e:
+        print(f" Got exception: {e}")
+    print()
+
+    print("Testing Log Processor...")
+    logProcessor = LogProcessor()
+    print(f" Trying to validate input '{data2}': "
+          f"{logProcessor.validate(data2)}"
+          )
+    data_log = [
+        {'log_level': 'NOTICE', 'log_message': 'Connection to server'},
+        {'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}
+        ]
+    print(f" Processing data: {data_log}")
+    try:
+        logProcessor.ingest(data_log)
+        print(" Extracting 2 values...")
+        for i in range(2):
+            rank, data = logProcessor.output()
+            print(f" Log entry {rank}: {data}")
+    except Exception as e:
+        print(f" Got exception: {e}")
