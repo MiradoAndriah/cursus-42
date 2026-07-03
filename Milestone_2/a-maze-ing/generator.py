@@ -68,11 +68,62 @@ class MazeGenerator:
         return self.grid
     
     def get_solution(self):
-        
+        from collections import deque
 
+        file = deque()
+        file.append(self.entry)
+        parent = {self.entry: None}
+        while file:
+            current = file.popleft()
+            if current == self.exit:
+                break
+            x = current[0]
+            y = current[1]
+            for voisin in self.get_accessible_voisin(x, y):
+                if voisin not in parent:
+                    parent[voisin] = current
+                    file.append(voisin)
+        chemin = []
+        cellule = self.exit
+        while cellule != None:
+            chemin.append(cellule)
+            cellule = parent[cellule]
+        chemin.reverse()
+
+        convert_chemin = ""
+        for i in range(len(chemin) - 1):
+            cellule1 = chemin[i]
+            cellule2 = chemin[i + 1]
+            x1 = cellule1[0]
+            y1 = cellule1[1]
+            x2 = cellule2[0]
+            y2 = cellule2[1]
+            if x2 > x1:
+                convert_chemin += 'E'
+            elif x1 > x2:
+                convert_chemin += 'W'
+            elif y1 > y2:
+                convert_chemin += 'N'
+            elif y2 > y1:
+                convert_chemin += 'S'
+        return convert_chemin
+
+    def get_accessible_voisin(self, x, y):
+        voisins = []
+        if y - 1 >= 0 and self.grid[y][x] & NORTH == 0:
+            voisins.append((x, y - 1))
+        if x + 1 < self.width and self.grid[y][x] & EAST == 0:
+            voisins.append((x + 1, y))
+        if y + 1 < self.height and self.grid[y][x] & SOUTH == 0:
+            voisins.append((x, y + 1))
+        if x - 1 >= 0 and self.grid[y][x] & WEST == 0:
+            voisins.append((x - 1, y))
+        return voisins
 
 if __name__ == "__main__":
     maze = MazeGenerator(5, 5, (0, 0), (4, 4), 42)
     maze.generate()
     for row in maze.grid:
         print(row)
+    solution = maze.get_solution()
+    print(solution)
