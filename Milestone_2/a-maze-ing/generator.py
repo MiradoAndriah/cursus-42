@@ -120,10 +120,10 @@ class MazeGenerator:
             voisins.append((x - 1, y))
         return voisins
 
-if __name__ == "__main__":
-    maze = MazeGenerator(5, 5, (0, 0), (4, 4), 42)
-    maze.generate()
-    for row in maze.grid:
-        print(row)
-    solution = maze.get_solution()
-    print(solution)
+# if __name__ == "__main__":
+#     maze = MazeGenerator(5, 5, (0, 0), (4, 4), 42)
+#     maze.generate()
+#     for row in maze.grid:
+#         print(row)
+#     solution = maze.get_solution()
+#     print(solution)
