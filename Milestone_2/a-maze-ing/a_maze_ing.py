@@ -4,14 +4,46 @@ import sys
 from config import parse_config
 from generator import MazeGenerator
 from writer import write_maze
+from display import display_maze
 
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("error, The argument must be")
+        sys.exit()
+    show_path = False
     config = parse_config(sys.argv[1])
     maze = MazeGenerator(config["WIDTH"],config["HEIGHT"],config["ENTRY"], config["EXIT"],config["SEED"])
     maze.generate()
     chemin = maze.get_solution()
-    write_maze(maze.get_grid(), maze.entry, maze.exit, maze.get_solution(), "output_maze.txt")
-    
+    write_maze(maze.get_grid(), maze.entry, maze.exit, chemin, config["OUTPUT_FILE"])
+    display_maze(maze.get_grid(), maze.entry, maze.exit, config["WIDTH"], config["HEIGHT"], chemin, show_path)
+    while True:
+        print("=== A-Maze-ing ===")
+        print("1. Re_generate a new maze")
+        print("2. Show/hide path from entry to exit")
+        print("3. Rotate maze colors")
+        print("4. Exit")
+        try:
+            choice = input("Choice? (1-4): ")
+            if choice == "1":
+                config["SEED"] += 1
+                maze = MazeGenerator(config["WIDTH"],config["HEIGHT"],config["ENTRY"], config["EXIT"],config["SEED"])    
+                maze.generate()
+                display_maze(maze.get_grid(), maze.entry, maze.exit, config["WIDTH"], config["HEIGHT"], chemin, show_path)
+                
+            elif choice == "2":
+                show_path = not show_path
+                display_maze(maze.get_grid(), maze.entry, maze.exit, 
+                config["WIDTH"], config["HEIGHT"], 
+                chemin, show_path)
+            # elif choice == "3":
+
+            elif choice == "4":
+                break
+            else:
+                print("\nERROR: choice have to be between 1-4\n")
+
+        except KeyboardInterrupt:
+            raise ValueError("end of program")
+            

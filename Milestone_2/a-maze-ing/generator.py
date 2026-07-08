@@ -16,8 +16,35 @@ class MazeGenerator:
         random.seed(seed)
         self.grid = [[15 for x in range(self.width)] for y in range(self.height)]
         self.visited = [[False for x in range(self.width)] for y in range(self.height)]
-        
+
+    def pattern_42(self):
+        PATTERN_42 = [
+            [1,0,0,1, 0, 1,1,1,1],
+            [1,0,0,1, 0, 0,0,0,1],
+            [1,1,1,1, 0, 1,1,1,1],
+            [0,0,0,1, 0, 1,0,0,0],
+            [0,0,0,1, 0, 1,1,1,1],
+        ]
+        height_pattern = len(PATTERN_42)
+        width_pattern = len(PATTERN_42[0])
+        center_x = self.width // 2
+        center_y =self.height // 2
+        start_x = center_x - width_pattern // 2
+        start_y = center_y - height_pattern // 2
+        if start_x < 0 or start_y < 0:
+            raise ValueError("Error: small labyrinth")
+        if start_x + width_pattern > self.width:
+            raise ValueError("Error: width small")
+        if start_y + height_pattern > self.height:
+            raise ValueError("Error: heigth small")
+        for y in range(height_pattern):
+            for x in range(width_pattern):
+                if PATTERN_42[y][x] == 1:
+                    self.grid[start_y + y][start_x + x] = 15
+                    self.visited[start_y + y][start_x + x] = True
+     
     def generate(self):
+        self.pattern_42()
         x = self.entry[0]
         y = self.entry[1]
         self.visited[y][x] = True
@@ -119,11 +146,3 @@ class MazeGenerator:
         if x - 1 >= 0 and self.grid[y][x] & WEST == 0:
             voisins.append((x - 1, y))
         return voisins
-
-# if __name__ == "__main__":
-#     maze = MazeGenerator(5, 5, (0, 0), (4, 4), 42)
-#     maze.generate()
-#     for row in maze.grid:
-#         print(row)
-#     solution = maze.get_solution()
-#     print(solution)
