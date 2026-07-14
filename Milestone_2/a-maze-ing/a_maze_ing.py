@@ -5,7 +5,7 @@ from config import parse_config
 from generator import MazeGenerator
 from writer import write_maze
 from display import display_maze, COLORS, RESET
-from display_mlx import init_window, draw_maze, start_loop, draw_rect
+from display_mlx import init_window, draw_maze
 import os
 
 
@@ -23,7 +23,6 @@ if __name__ == "__main__":
     #display_maze(maze.get_grid(), maze.entry, maze.exit, config["WIDTH"], config["HEIGHT"], chemin, show_path, COLORS[colors_index])
     init_window(config["WIDTH"], config["HEIGHT"])
     draw_maze(maze.get_grid(), maze.entry, maze.exit, config["WIDTH"], config["HEIGHT"], chemin, show_path)
-    start_loop()
     # while True:
     #     print("=== A-Maze-ing ===")
     #     print("1. Re_generate a new maze")

@@ -27,10 +27,10 @@ def init_window(width, height):
         m.mlx_key_hook(win, key_hook, None)
         m.mlx_hook(win, 33, 0, destroy, None)
 
-def draw_rect(x, y, width, heigth, color):
-    for dy in range(heigth):
-        for dx in range(width):
-            m.mlx_pixel_put(mlx_ptr, win, x + dx, y + dy, color)
+# def draw_rect(x, y, width, heigth, color):
+#     for dy in range(heigth):
+#         for dx in range(width):
+#             m.mlx_string_put(mlx_ptr, win, x + dx, y + dy, color)
 # draw_rect(50, 50, 100, 50, 0xFF0000)   # rectangle rouge
 # draw_rect(200, 100, 80, 80, 0x00FF00)  # rectangle vert
 
@@ -47,7 +47,6 @@ def destroy(params):
     return 0
 
 def draw_maze(grid, entry, exit, width, height, chemin, show_path):
-    m.mlx_clear_window(mlx_ptr, win)
     CELL_SIZE = 30
     WALL_SIZE = 2
     WALL_COLOR = 0xFFFFFF
@@ -72,35 +71,42 @@ def draw_maze(grid, entry, exit, width, height, chemin, show_path):
                 curr_x -= 1
             path.append((curr_x, curr_y))
         chemin = path
-        
-    for y in range(height):
-        for x in range(width):
-            pixel_x = x * CELL_SIZE
-            pixel_y = y * CELL_SIZE
+    drawn = [False]
+    def loop_hook(params):
+        if not drawn[0]:
+            m.mlx_clear_window(mlx_ptr, win)
+            for y in range(height):
+                for x in range(width):
+                    px = x * CELL_SIZE
+                    py = y * CELL_SIZE
 
-
-            if (x,y) == entry:
-                draw_rect(pixel_x, pixel_y, CELL_SIZE, CELL_SIZE, ENTRY_COLOR)
-            if (x, y) == exit:
-                draw_rect(pixel_x, pixel_y, CELL_SIZE, CELL_SIZE, EXIT_COLOR)
-            if show_path and (x, y) in chemin:
-                draw_rect(pixel_x, pixel_y, CELL_SIZE, CELL_SIZE, PATH_COLOR)
-            if grid[y][x] == 15:
-                draw_rect(pixel_x, pixel_y, CELL_SIZE, CELL_SIZE, COLOR_42)
-
-            if grid[y][x] & NORTH != 0:
-                draw_rect(pixel_x, pixel_y, CELL_SIZE, WALL_SIZE, WALL_COLOR)
-
-            if grid[y][x] & SOUTH != 0:
-                draw_rect(pixel_x, pixel_y + CELL_SIZE - WALL_SIZE, CELL_SIZE, WALL_SIZE, WALL_COLOR)
-
-            if grid[y][x] & WEST != 0:
-                draw_rect(pixel_x, pixel_y, WALL_SIZE, CELL_SIZE, WALL_COLOR)
-
-            if grid[y][x] & EAST != 0:
-                draw_rect(pixel_x + CELL_SIZE - WALL_SIZE, pixel_y, WALL_SIZE, CELL_SIZE, WALL_COLOR)
-
-def start_loop():
+                    if (x,y) == entry:
+                        #draw_rect(pixel_x, pixel_y, CELL_SIZE, CELL_SIZE, ENTRY_COLOR)
+                        m.mlx_string_put(mlx_ptr, win, px+2, py+5, 0x00FF00, "E")
+                    if (x, y) == exit:
+                        #draw_rect(pixel_x, pixel_y, CELL_SIZE, CELL_SIZE, EXIT_COLOR)
+                        m.mlx_string_put(mlx_ptr, win, px+2, py+5, 0xFF0000, "X")
+                    if show_path and (x, y) in chemin:
+                        #draw_rect(pixel_x, pixel_y, CELL_SIZE, CELL_SIZE, PATH_COLOR)
+                        m.mlx_string_put(mlx_ptr, win, px+2, py+5, 0x00FFFF, ".")
+                    if grid[y][x] == 15:
+                        #draw_rect(pixel_x, pixel_y, CELL_SIZE, CELL_SIZE, COLOR_42)
+                        m.mlx_string_put(mlx_ptr, win, px+2, py+5, 0x00FF00, "##")
+                    if grid[y][x] & NORTH != 0:
+                        #draw_rect(pixel_x, pixel_y, CELL_SIZE, WALL_SIZE, WALL_COLOR)
+                        m.mlx_string_put(mlx_ptr, win, px, py, 0xFFFFFF, "+---")
+                    if grid[y][x] & SOUTH != 0:
+                        #draw_rect(pixel_x, pixel_y + CELL_SIZE - WALL_SIZE, CELL_SIZE, WALL_SIZE, WALL_COLOR)
+                        m.mlx_string_put(mlx_ptr, win, px, py, 0xFFFFFF, "+---")
+                    if grid[y][x] & WEST != 0:
+                        #draw_rect(pixel_x, pixel_y, WALL_SIZE, CELL_SIZE, WALL_COLOR)
+                        m.mlx_string_put(mlx_ptr, win, px, py, 0xFFFFFF, "|")
+                    if grid[y][x] & EAST != 0:
+                        #draw_rect(pixel_x + CELL_SIZE - WALL_SIZE, pixel_y, WALL_SIZE, CELL_SIZE, WALL_COLOR)
+                        m.mlx_string_put(mlx_ptr, win, px+CELL_SIZE-8, py, 0xFFFFFF, "|")
+            drawn[0] = True
+        return 0
+    m.mlx_loop_hook(mlx_ptr, loop_hook, None)
     m.mlx_loop(mlx_ptr)
 
 
