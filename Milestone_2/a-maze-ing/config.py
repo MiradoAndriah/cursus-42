@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from typing import Any
+import sys
 
 REQUIRED_KEYS = ["WIDTH", "HEIGHT", "ENTRY", "EXIT", "OUTPUT_FILE", "PERFECT"]
 
@@ -12,6 +13,7 @@ def convert_value(config: dict[str, Any]) -> dict[str, Any]:
         entry = config["ENTRY"].split(',')
         if len(entry) != 2:
             raise ValueError("value not in format (x, y)")
+
         config["ENTRY"] = (int(entry[0]), int(entry[1]))
 
         exited = config["EXIT"].split(',')
