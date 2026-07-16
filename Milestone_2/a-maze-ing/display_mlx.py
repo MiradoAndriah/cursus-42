@@ -7,6 +7,13 @@ SOUTH = 4
 WEST = 8
 CELL_SIZE = 30
 MARGIN_BOTTOM = 40
+WALL_COLORS = [
+    0xFFFFFFFF,   # blanc
+    0xFF00FF00,   # vert
+    0xFFFFFF00,   # jaune
+    0xFFFF00FF,   # magenta
+    0xFF00FFFF,   # cyan
+]
 
 class Renderer:
     def __init__(self, width: int, height: int) -> None:
@@ -35,8 +42,10 @@ class Renderer:
         self.chemin = None
         self.show_path = False
         self.seed = 0
-
         
+        """couleur des mur"""
+        self.color_index = 0
+        self.wall_color = 0xFFFFFFFF
     def put_pixel(self, x: int, y: int, color: int) -> None:
         if 0 <= x < self.width and 0 <= y < self.height:
             off: int = y * self.sl + x * (self.bpp // 8)
@@ -52,25 +61,18 @@ class Renderer:
 
     def redraw(self):
         self.clear()
+        self.mlx.mlx_clear_window(self.mlx_ptr, self.win)
         self.draw_maze(self.grid, self.entry, self.exit,
                       self.maze_width, self.maze_height,
                       self.chemin, self.show_path)
         self.flush()
         
-        self.mlx.mlx_clear_window(self.mlx_ptr, self.win)
-        self.flush()
-        self.mlx.mlx_string_put(
-        self.mlx_ptr, self.win,
-        10,
-        self.height - 25,
-        0xFFFFFFFF,
-        "a:regen  w:path  d:color  esc:quit"
-        )
+        # self.flush()
+        
     
     def clear(self):
-        self.mlx.mlx_destroy_image(self.mlx_ptr, self.img)
-        self.img = self.mlx.mlx_new_image(self.mlx_ptr, self.width, self.height)
-        self.data, self.bpp, self.sl, _ = self.mlx.mlx_get_data_addr(self.img)
+        size = self.height * self.sl
+        self.data[:size] = bytes(size)
     
     def key_hook(self, keycode, params):
         if keycode == 0:
@@ -83,6 +85,8 @@ class Renderer:
 
             new_maze = MazeGenerator(self.maze_width, self.maze_height,
                                      self.entry, self.exit, self.seed)
+            
+            self.redraw()
             new_maze.generate()
             self.grid = new_maze.get_grid()
             self.chemin = new_maze.get_solution()
@@ -90,13 +94,11 @@ class Renderer:
         elif keycode == 119:
             self.show_path = not self.show_path
             self.redraw()
-        else:
-            self.mlx.mlx_string_put(
-                self.mlx_ptr, self.win,
-                10, self.height - 25,
-                0xFFFF0000,
-                "ERROR: key invalide, press a or w or d or esc"
-                )
+        
+        elif keycode == 100:
+            self.color_index = (self.color_index + 1) % len(WALL_COLORS)
+            self.wall_color = WALL_COLORS[self.color_index]
+            self.redraw()
         return 0
 
     def destroy(self, params):
@@ -104,7 +106,7 @@ class Renderer:
         return 0
     def draw_maze(self, grid, entry, exit, width, height, chemin, show_path):
         WALL_SIZE = 2
-        WALL_COLOR  = 0xFFFFFFFF   # blanc ← ajouter FF devant
+        WALL_COLOR  = self.wall_color   # blanc ← ajouter FF devant
         ENTRY_COLOR = 0xFF00FF00   # vert
         EXIT_COLOR  = 0xFFFF0000   # rouge  
         PATH_COLOR  = 0xFF00FFFF   # cyan
@@ -137,7 +139,10 @@ class Renderer:
                 if (x, y) == exit:
                     self.draw_rect(pixel_x, pixel_y, CELL_SIZE, CELL_SIZE, EXIT_COLOR)
                 if show_path and (x, y) in chemin:
-                    self.draw_rect(pixel_x, pixel_y, CELL_SIZE, CELL_SIZE, PATH_COLOR)
+                    dot_size = 6
+                    cx = pixel_x + CELL_SIZE // 2 - dot_size // 2
+                    cy = pixel_y + CELL_SIZE // 2 - dot_size // 2
+                    self.draw_rect(cx, cy, dot_size, dot_size, PATH_COLOR)
                 if grid[y][x] == 15:
                     self.draw_rect(pixel_x, pixel_y, CELL_SIZE, CELL_SIZE, COLOR_42)
                 if grid[y][x] & NORTH != 0:
@@ -148,16 +153,13 @@ class Renderer:
                     self.draw_rect(pixel_x, pixel_y, WALL_SIZE, CELL_SIZE, WALL_COLOR)
                 if grid[y][x] & EAST != 0:
                     self.draw_rect(pixel_x + CELL_SIZE - WALL_SIZE, pixel_y, WALL_SIZE, CELL_SIZE, WALL_COLOR)
+        
+        self.mlx.mlx_string_put(
+        self.mlx_ptr, self.win,
+        10,
+        self.height - 25,
+        0xFFFFFFFF,
+        "a:regen  w:show/hide path  d:Change_color  esc:quit"
+        )
+
         return 0
-
-if __name__ == "__main__":
-    from generator import MazeGenerator
-    maze = MazeGenerator(20, 15, (0,0), (19,14), 42)
-    maze.generate()
-    chemin = maze.get_solution()
-
-    render = Renderer(20 * 30, 15 * 30)
-    render.draw_maze(maze.get_grid(), maze.entry, maze.exit,
-                        20, 15, chemin, False)
-    render.flush()
-    render.mlx.mlx_loop(render.mlx_ptr)

@@ -110,6 +110,10 @@ class MazeGenerator:
                 if voisin not in parent:
                     parent[voisin] = current
                     file.append(voisin)
+        
+        if self.exit not in parent:
+            return ""
+
         chemin = []
         cellule = self.exit
         while cellule != None:
