@@ -5,7 +5,6 @@ NORTH = 1
 EAST = 2
 SOUTH = 4
 WEST = 8
-CELL_SIZE = 30
 MARGIN_BOTTOM = 40
 WALL_COLORS = [
     0xFFFFFFFF,   # blanc
@@ -16,36 +15,43 @@ WALL_COLORS = [
 ]
 
 class Renderer:
-    def __init__(self, width: int, height: int) -> None:
-        self.width: int = width
-        self.height: int = height
-        self.mlx: Mlx = Mlx()
+    def __init__(self, maze_width: int, maze_height: int) -> None:
+        self.mlx = Mlx()
         self.mlx_ptr = self.mlx.mlx_init()
-        self.win = self.mlx.mlx_new_window(self.mlx_ptr, width, height, "A_MAZE_ING")
-        """creation d'image"""
-        self.img = self.mlx.mlx_new_image(self.mlx_ptr, width, height)
-        self.data: memoryview
-        self.bpp: int
-        self.sl: int
-        self.data, self.bpp, self.sl, _ = \
-            self.mlx.mlx_get_data_addr(self.img)
-        """les hooks"""
+
+        """calculer cell_size"""
+        _, screen_w, screen_h = self.mlx.mlx_get_screen_size(self.mlx_ptr)
+        cell_w = screen_w // maze_width
+        cell_h = (screen_h - MARGIN_BOTTOM) // maze_height
+        self.cell_size = min(cell_w, cell_h, 30)
+        self.cell_size = max(self.cell_size, 5)
+
+        """calculer taille fenêtre"""
+        self.width = maze_width * self.cell_size
+        self.height = maze_height * self.cell_size + MARGIN_BOTTOM
+        self.maze_width = maze_width
+        self.maze_height = maze_height
+
+        """créer fenêtre et image avec la bonne taille"""
+        self.win = self.mlx.mlx_new_window(self.mlx_ptr, self.width, self.height, "A_MAZE_ING")
+        self.img = self.mlx.mlx_new_image(self.mlx_ptr, self.width, self.height)
+        self.data, self.bpp, self.sl, _ = self.mlx.mlx_get_data_addr(self.img)
+
+        """hooks"""
         self.mlx.mlx_key_hook(self.win, self.key_hook, None)
         self.mlx.mlx_hook(self.win, 33, 0, self.destroy, None)
 
-        """les donner du labyrinth"""
+        """données labyrinthe"""
         self.grid = None
         self.entry = None
         self.exit = None
-        self.maze_width = None
-        self.maze_height = None
         self.chemin = None
         self.show_path = False
         self.seed = 0
-        
-        """couleur des mur"""
         self.color_index = 0
         self.wall_color = 0xFFFFFFFF
+    
+
     def put_pixel(self, x: int, y: int, color: int) -> None:
         if 0 <= x < self.width and 0 <= y < self.height:
             off: int = y * self.sl + x * (self.bpp // 8)
@@ -105,7 +111,8 @@ class Renderer:
         os._exit(0)
         return 0
     def draw_maze(self, grid, entry, exit, width, height, chemin, show_path):
-        WALL_SIZE = 2
+        WALL_SIZE = max(1, self.cell_size // 15)
+        CELL_SIZE = self.cell_size
         WALL_COLOR  = self.wall_color   # blanc ← ajouter FF devant
         ENTRY_COLOR = 0xFF00FF00   # vert
         EXIT_COLOR  = 0xFFFF0000   # rouge  
@@ -139,7 +146,7 @@ class Renderer:
                 if (x, y) == exit:
                     self.draw_rect(pixel_x, pixel_y, CELL_SIZE, CELL_SIZE, EXIT_COLOR)
                 if show_path and (x, y) in chemin:
-                    dot_size = 6
+                    dot_size = max(4, self.cell_size // 5)
                     cx = pixel_x + CELL_SIZE // 2 - dot_size // 2
                     cy = pixel_y + CELL_SIZE // 2 - dot_size // 2
                     self.draw_rect(cx, cy, dot_size, dot_size, PATH_COLOR)

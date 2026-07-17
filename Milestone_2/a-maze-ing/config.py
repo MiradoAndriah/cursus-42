@@ -33,11 +33,11 @@ def convert_value(config: dict[str, Any]) -> dict[str, Any]:
             config["SEED"] = int(config["SEED"])
         else:
             config["SEED"] = 42
-
+        
+        return config
     except ValueError as e:
         raise ValueError(f"Value invalide in config: {e}")
-    return config
-
+    
 
 def validate_value(config: dict[str, Any]) -> None:
     if config["WIDTH"] < 1:
@@ -86,10 +86,12 @@ def parse_config(filepath: str) -> dict[str, Any]:
         config = convert_value(config)
         validate_value(config)
 
+        return config
+    
     except FileNotFoundError:
         print(f"Error : file '{filepath}' not found")
+        sys.exit(1)
 
     except Exception as e:
         print(f"Error: {e}")
-
-    return config
+        sys.exit(1)

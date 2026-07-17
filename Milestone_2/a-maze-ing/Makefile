@@ -1,38 +1,41 @@
-PYTHON    = python3
-MAIN      = a_maze_ing.py
-CONFIG    = config.txt
-PKG_DIR   = mazegen_pkg
+PYTHON = python3.13
+VENV = env
+PIP = $(VENV)/bin/pip
 
-.PHONY: install run debug lint lint-strict clean build-pkg
+MAIN = a_maze_ing.py 
+CONFIG = config.txt
+
+all: run
 
 install:
-	pip install flake8 mypy --break-system-packages
+	@$(PYTHON) -m venv $(VENV)
+	@$(PIP) install --upgrade pip
+	@$(PIP) install -r requirements.txt
 
 run:
-	$(PYTHON) $(MAIN) $(CONFIG)
+	@$(PYTHON) $(MAIN) $(CONFIG) || true
 
 debug:
 	$(PYTHON) -m pdb $(MAIN) $(CONFIG)
 
+clean:
+	find . -type d -name __pycache__ \
+	-exec rm -rf {} +
+	rm -rf .mypy_cache
+	rm -rf .pytest_cache
+	find . -name "*.pyc" -delete
+
 lint:
-	flake8 .
-	mypy . \
-	  --warn-return-any \
-	  --warn-unused-ignores \
-	  --ignore-missing-imports \
-	  --disallow-untyped-defs \
-	  --check-untyped-defs
+	python3 -m flake8 *
+	python3 -m mypy --strict *\
+	--warn-return-any \
+	--warn-unused-ignores\
+	--ignore-missing-imports \
+	--disallow-untyped-defs \
+	--check-untyped-defs .
 
 lint-strict:
 	flake8 .
 	mypy . --strict
 
-clean:
-	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
-	find . -type d -name ".mypy_cache"  -exec rm -rf {} + 2>/dev/null || true
-	find . -type d -name "*.egg-info"   -exec rm -rf {} + 2>/dev/null || true
-	find . -type d -name "dist"         -exec rm -rf {} + 2>/dev/null || true
-	find . -type d -name "build"        -exec rm -rf {} + 2>/dev/null || true
-
-build-pkg:
-	cd $(PKG_DIR) && pip install build --break-system-packages && python3 -m build
+.PHONY:	install run debug clean lint lint-strict

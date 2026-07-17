@@ -4,7 +4,7 @@ import sys
 from config import parse_config
 from generator import MazeGenerator
 from writer import write_maze
-from display_mlx import Renderer, CELL_SIZE, MARGIN_BOTTOM
+from display_mlx import Renderer, MARGIN_BOTTOM
 
 
 
@@ -19,7 +19,7 @@ if __name__ == "__main__":
     maze.generate()
     chemin = maze.get_solution()
     write_maze(maze.get_grid(), maze.entry, maze.exit, chemin, config["OUTPUT_FILE"])
-    render = Renderer(config["WIDTH"] * CELL_SIZE, config["HEIGHT"] * CELL_SIZE + MARGIN_BOTTOM)
+    render = Renderer(config["WIDTH"], config["HEIGHT"])
     """stockage des valeur de la labyrinthe"""
     render.grid = maze.get_grid()
     render.entry = maze.entry
