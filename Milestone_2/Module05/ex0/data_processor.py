@@ -5,7 +5,7 @@ from typing import Any
 
 class DataProcessor(ABC):
     def __init__(self) -> None:
-        self.file: list[tuple[int, str]] = []
+        self.data_file: list[tuple[int, str]] = []
         self.rank = 0
 
     @abstractmethod
@@ -17,8 +17,8 @@ class DataProcessor(ABC):
         pass
 
     def output(self) -> tuple[int, str]:
-        first_element = self.file[0]
-        self.file.pop(0)
+        first_element = self.data_file[0]
+        self.data_file.pop(0)
         return first_element
 
 
@@ -35,14 +35,14 @@ class NumericProcessor(DataProcessor):
         else:
             return False
 
-    def ingest(self, data: Any) -> None:
+    def ingest(self, data: int | float | list[int] | list[float]) -> None:
         if not self.validate(data):
             raise TypeError("Improper numeric data")
         if not isinstance(data, list):
             data = [data]
         for element in data:
             element_str = str(element)
-            self.file += [(self.rank, element_str)]
+            self.data_file += [(self.rank, element_str)]
             self.rank += 1
 
 
@@ -65,7 +65,7 @@ class TextProcessor(DataProcessor):
         if not isinstance(data, list):
             data = [data]
         for element in data:
-            self.file += [(self.rank, element)]
+            self.data_file += [(self.rank, element)]
             self.rank += 1
 
 
@@ -93,7 +93,7 @@ class LogProcessor(DataProcessor):
         for element in data:
             values = list(element.values())
             format_string = values[0] + ": " + values[1]
-            self.file += [(self.rank, format_string)]
+            self.data_file += [(self.rank, format_string)]
             self.rank += 1
 
 
