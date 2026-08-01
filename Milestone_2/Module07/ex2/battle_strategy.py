@@ -58,7 +58,7 @@ class DefensiveStrategy(BattleStrategy):
         )
 
     def act(self, creature: Creature, opponent: Creature) -> None:
-        assert isinstance(creature, HealCapability)
         self.check_valid(creature)
+        assert isinstance(creature, HealCapability)
         print(creature.attack())
         print(creature.heal())
