@@ -53,8 +53,7 @@ def check_dependencies() -> bool:
 
 
 def generate_data() -> "pandas.DataFrame":
-    K = 1000
-    number = numpy.random.randint(0, 1000, K)
+    number = numpy.random.randn(1000)
     data_frame = pandas.DataFrame(number)
     return data_frame
 
@@ -64,9 +63,12 @@ def generate_image(df: "pandas.DataFrame") -> None:
     print("Processing 1000 data points...")
     print("Generating visualization...\n")
 
-    x, y = pyplot.subplots()
-    y.plot(df, color="red")
-    x.savefig("matrix_analysis.png")
+    fig, ax = pyplot.subplots()
+    ax.plot(df, color="red")
+    ax.set_title("MATRIX DATA")
+    ax.set_xlabel("index")
+    ax.set_ylabel("data")
+    fig.savefig("matrix_analysis.png")
 
     print("Analysis complete!")
     print("Results saved to: matrix_analysis.png")

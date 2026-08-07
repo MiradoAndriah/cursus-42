@@ -29,22 +29,22 @@ def mode_dev() -> None:
     if config['DATABASE_URL'].lower():
         print(" Database: Connected to local instance")
     else:
-        print(" DATABASE not configured")
+        print(" DATABASE not configured in .env")
 
     if config['API_KEY']:
         print(" API Access: Authenticated")
     else:
-        print(" API_KEY not configured")
+        print(" API_KEY not configured in .env")
 
     if config['LOG_LEVEL']:
         print(f" Log Level: {config['LOG_LEVEL']}")
     else:
-        print(" LOG_LEVEL not configured")
+        print(" LOG_LEVEL not configured in .env")
 
     if config['ZION_ENDPOINT']:
         print(" Zion Network: Online\n")
     else:
-        print(" ZION_ENDPOINT not configured\n")
+        print(" ZION_ENDPOINT not configured in .env\n")
 
 
 def mod_prod() -> None:
@@ -53,22 +53,22 @@ def mod_prod() -> None:
     if config['DATABASE_URL'].lower():
         print(" Database: Connected to production cluster")
     else:
-        print(" DATABASE not configured")
+        print(" DATABASE not configured in .env")
 
     if config['API_KEY']:
         print(" API Access: Authenticated")
     else:
-        print(" API_KEY not configured")
+        print(" API_KEY not configured in .env")
 
     if config['LOG_LEVEL']:
         print(f" Log Level: {config['LOG_LEVEL']}")
     else:
-        print(" LOG_LEVEL not configured")
+        print(" LOG_LEVEL not configured in .env")
 
     if config['ZION_ENDPOINT']:
         print(" Zion Network: Online\n")
     else:
-        print(" ZION_ENDPOINT not configured\n")
+        print(" ZION_ENDPOINT not configured in .env\n")
 
 
 def check_gitignore() -> bool:
@@ -104,7 +104,8 @@ def main() -> None:
     elif config['MATRIX_MODE'].lower() == 'production':
         mod_prod()
     else:
-        print("MATRIX_MODE must be 'development' or 'production'")
+        print("Use: cp .env.example .env")
+        print("MATRIX_MODE must be 'development' or 'production' in .env")
         sys.exit()
 
     print("Environment security check:")
