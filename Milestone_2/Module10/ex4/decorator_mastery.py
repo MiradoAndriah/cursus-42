@@ -18,7 +18,7 @@ def spell_timer(func: Callable[..., Any]) -> Callable[..., Any]:
 
 
 def power_validator(min_power: int) -> Callable[..., Any]:
-    def decorator(func: Callable[..., Any]) -> Any:
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
         @wraps(func)
         def wrapper(power: int, *args: Any, **kwargs: Any) -> Any:
             if power >= min_power:
@@ -30,7 +30,7 @@ def power_validator(min_power: int) -> Callable[..., Any]:
 
 
 def retry_spell(max_attempts: int) -> Callable[..., Any]:
-    def decorator(func: Callable[..., Any]) -> Any:
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
             for attempt in range(1, max_attempts + 1):
@@ -39,7 +39,7 @@ def retry_spell(max_attempts: int) -> Callable[..., Any]:
                 except Exception:
                     if attempt < max_attempts:
                         print(
-                            "Spell failed, retrying..."
+                            "Spell failed, retrying... "
                             f"(attempt {attempt}/{max_attempts})"
                             )
             return f"Spell casting failed after {max_attempts} attempts"
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     def fireball() -> str:
         time.sleep(0.101)
         return f"Result: {fireball.__name__.capitalize()} cast!\n"
-    print("Testing spell timer...")
+    print("\nTesting spell timer...")
     print(fireball())
 
     print("Testing retrying spell...")
