@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+        */
+/*   By: login <login@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/19 15:29:19 by herinaan          #+#    #+#             */
-/*   Updated: 2026/10/20 12:11:03 by herinaan         ###   ########.fr       */
+/*   Created: 2026/10/26 10:00:00 by login             #+#    #+#             */
+/*   Updated: 2026/10/26 10:00:00 by login            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ long	get_time_ms(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
+void	set_abs_time(struct timespec *ts, long ms)
+{
+	ts->tv_sec = ms / 1000;
+	ts->tv_nsec = (ms % 1000) * 1000000;
+}
+
 int	is_stopped(t_sim *sim)
 {
 	int	stopped;
@@ -28,6 +34,13 @@ int	is_stopped(t_sim *sim)
 	stopped = sim->stop;
 	pthread_mutex_unlock(&sim->state_mutex);
 	return (stopped);
+}
+
+void	set_stop(t_sim *sim)
+{
+	pthread_mutex_lock(&sim->state_mutex);
+	sim->stop = 1;
+	pthread_mutex_unlock(&sim->state_mutex);
 }
 
 void	smart_sleep(long ms, t_sim *sim)

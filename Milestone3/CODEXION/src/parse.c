@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+        */
+/*   By: login <login@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/19 15:21:58 by herinaan          #+#    #+#             */
-/*   Updated: 2026/10/19 15:22:41 by herinaan         ###   ########.fr       */
+/*   Created: 2026/10/26 10:00:00 by login             #+#    #+#             */
+/*   Updated: 2026/10/26 10:00:00 by login            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,9 @@ static void	fill_config(char **av, t_config *conf)
 
 int	parsing(int ac, char **av, t_config *conf)
 {
-	if (ac != 9 || check_numbers(av) || (strcmp(av[8], "fifo") != 0
-			&& strcmp(av[8], "edf") != 0))
+	if (ac != 9
+		|| check_numbers(av)
+		|| (strcmp(av[8], "fifo") != 0 && strcmp(av[8], "edf") != 0))
 	{
 		fprintf(stderr, "Error\n");
 		return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+        */
+/*   By: login <login@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/19 15:21:11 by herinaan          #+#    #+#             */
-/*   Updated: 2026/10/20 12:08:19 by herinaan         ###   ########.fr       */
+/*   Created: 2026/10/26 10:00:00 by login             #+#    #+#             */
+/*   Updated: 2026/10/26 10:00:00 by login            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,14 @@
 
 int	main(int ac, char **av)
 {
-	t_config	config;
+	t_sim	sim;
 
-	if (parsing(ac, av, &config) != 0)
+	memset(&sim, 0, sizeof(t_sim));
+	if (parsing(ac, av, &sim.config))
 		return (1);
+	if (init_sim(&sim))
+		return (1);
+	run_sim(&sim);
+	cleanup_sim(&sim);
 	return (0);
 }
