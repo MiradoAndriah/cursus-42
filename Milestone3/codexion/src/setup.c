@@ -6,7 +6,7 @@
 /*   By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 10:12:53 by herinaan          #+#    #+#             */
-/*   Updated: 2026/11/23 10:08:58 by herinaan         ###   ########.fr       */
+/*   Updated: 2026/11/24 15:03:25 by herinaan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	init_dongles(t_sim *sim)
 	n = sim->params.coder_count;
 	sim->dongles = malloc(sizeof(t_dongle) * n);
 	if (!sim->dongles)
-		return (1);
+		return (print_error("could not allocate, number of coder too large"));
 	i = 0;
 	while (i < n)
 	{
@@ -61,8 +61,8 @@ static int	init_coders(t_sim *sim)
 		sim->coders[i].right_dongle = &sim->dongles[i];
 		sim->coders[i].last_compile_start = sim->start_time;
 		sim->coders[i].compile_count = 0;
-		sim->coders[i].start_offset = compute_offset(&sim->params, sim->cycle,
-				i + 1);
+		sim->coders[i].start_offset = compute_offset(&sim->params, sim->cycle, i
+				+ 1);
 		sim->coders[i].next_start = 0;
 		sim->coders[i].sim = sim;
 		i++;

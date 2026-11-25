@@ -6,7 +6,7 @@
 /*   By: herinaan <herinaan@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/23 13:00:17 by herinaan          #+#    #+#             */
-/*   Updated: 2026/11/23 13:31:05 by herinaan         ###   ########.fr       */
+/*   Updated: 2026/11/24 14:43:31 by herinaan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,23 @@ int	print_error(char *msg)
 	return (1);
 }
 
+static char	*arg_name(int i)
+{
+	if (i == 0)
+		return ("number_of_coders");
+	if (i == 1)
+		return ("time_to_burnout");
+	if (i == 2)
+		return ("time_to_compile");
+	if (i == 3)
+		return ("time_to_debug");
+	if (i == 4)
+		return ("time_to_refactor");
+	if (i == 5)
+		return ("number_of_compiles_required");
+	return ("dongle_cooldown");
+}
+
 int	read_values(char **argv, long *values)
 {
 	int	i;
@@ -51,8 +68,12 @@ int	read_values(char **argv, long *values)
 	while (i < 7)
 	{
 		if (!is_valid_number(argv[i + 1]))
-			return (print_error("negative values, "
-					"letters and empty strings are not accepted"));
+		{
+			fprintf(stderr, "Error: %s must be a positive integer "
+				"(digits only, up to %d), got '%s'\n",
+				arg_name(i), INT_MAX, argv[i + 1]);
+			return (1);
+		}
 		values[i] = atoi(argv[i + 1]);
 		i++;
 	}

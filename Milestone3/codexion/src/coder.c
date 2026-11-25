@@ -56,7 +56,7 @@ void	*coder_routine(void *arg)
 
 	coder = (t_coder *)arg;
 	sim = coder->sim;
-	while (coder->compile_count < sim->params.compile_goal && !is_stopped(sim))
+	while (!is_stopped(sim))
 	{
 		wait_for_slot(coder);
 		if (acquire_or_stop(coder))
@@ -64,6 +64,8 @@ void	*coder_routine(void *arg)
 		start_compile(coder);
 		sleep_ms(sim, sim->params.time_to_compile);
 		finish_compile(coder);
+		if (coder->compile_count >= sim->params.compile_goal)
+			break ;
 		log_event(coder, "is debugging");
 		sleep_ms(sim, sim->params.time_to_debug);
 		log_event(coder, "is refactoring");

@@ -47,7 +47,7 @@ int	parse_args(int argc, char **argv, t_params *params)
 	if (read_values(argv, values) || check_values(values))
 		return (1);
 	if (set_policy(argv[8], params))
-		return (print_error("scheduler must be 'fifo' or 'edf'\n"));
+		return (print_error("scheduler must be 'fifo' or 'edf'"));
 	fill_params(values, params);
 	return (0);
 }
